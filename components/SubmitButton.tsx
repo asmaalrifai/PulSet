@@ -7,6 +7,7 @@ interface ButtonProps {
   className?: string;
   children: React.ReactNode;
 }
+
 const SubmitButton = ({ isLoading, className, children }: ButtonProps) => {
   return (
     <Button
@@ -15,10 +16,10 @@ const SubmitButton = ({ isLoading, className, children }: ButtonProps) => {
       className={className ?? "shad-primary-btn w-full"}
     >
       {isLoading ? (
-        <div className="flex item-center gap-4">
+        <div className="flex items-center gap-4">
           <Image
             src="/assets/icons/loader.svg"
-            alt="Loader"
+            alt="loader"
             width={24}
             height={24}
             className="animate-spin"
@@ -31,5 +32,4 @@ const SubmitButton = ({ isLoading, className, children }: ButtonProps) => {
     </Button>
   );
 };
-
 export default SubmitButton;

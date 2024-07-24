@@ -13,8 +13,10 @@ import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.actions";
 import { FormFieldType } from "./PatientForm";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { GenderOptions } from "@/constants";
+import { Doctors, GenderOptions } from "@/constants";
 import { Label } from "../ui/label";
+import { SelectItem } from "../ui/select";
+import Image from "next/image";
 
 const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();
@@ -63,6 +65,7 @@ const RegisterForm = ({ user }: { user: User }) => {
           </div>
         </section>
 
+        {/* Full Name, Input */}
         <CustomFormField
           fieldType={FormFieldType.INPUT}
           control={form.control}
@@ -73,6 +76,7 @@ const RegisterForm = ({ user }: { user: User }) => {
           iconAlt="user"
         />
 
+        {/* Email, Input - Phone, Phone_Input */}
         <div className="flex flex-col gap-6 xl:flex-row ">
           <CustomFormField
             fieldType={FormFieldType.INPUT}
@@ -93,6 +97,7 @@ const RegisterForm = ({ user }: { user: User }) => {
           />
         </div>
 
+        {/* Date of birth, date_Picker - Gender, Skeleton */}
         <div className="flex flex-col gap-6 xl:flex-row">
           <CustomFormField
             fieldType={FormFieldType.DATE_PICKER}
@@ -118,7 +123,7 @@ const RegisterForm = ({ user }: { user: User }) => {
                   {GenderOptions.map((option) => (
                     <div key={option} className="radio-group">
                       <RadioGroupItem value={option} id={option} />
-                      <Label htmlFor={option} className="cursor-point">
+                      <Label htmlFor={option} className="cursor-pointer">
                         {option}
                       </Label>
                     </div>
@@ -128,6 +133,76 @@ const RegisterForm = ({ user }: { user: User }) => {
             )}
           />
         </div>
+
+        {/* Address, Input - Occupation, Input */}
+        <div className="flex flex-col gap-6 xl:flex-row ">
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="address"
+            label="Address"
+            placeholder="ex: Istanbul, Taksim"
+          />
+
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="occupation"
+            label="Occupation"
+            placeholder="Software Engineer"
+          />
+        </div>
+
+        {/* Emergincy contact, Input, phone */}
+        <div className="flex flex-col gap-6 xl:flex-row ">
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="emergencyContactName"
+            label="Emergincy Contact Name"
+            placeholder="Guardian's name"
+          />
+
+          <CustomFormField
+            fieldType={FormFieldType.PHONE_INPUT}
+            control={form.control}
+            name="emerginceContactNumber"
+            label="Emergincy Contact Number"
+            placeholder="ex: +90 505 555 5555"
+          />
+        </div>
+
+        {/* Medical info */}
+        <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+            <p className="sub-header">Medical Information</p>
+          </div>
+        </section>
+
+        <CustomFormField
+          fieldType={FormFieldType.SELECT}
+          control={form.control}
+          name="primaryPhysician"
+          label="Primary Care Physician"
+          placeholder="Select a physician"
+        >
+          {Doctors.map((doctor) => (
+            <SelectItem key = {doctor.name} value={doctor.name}>
+              <div className="flex cursor-pointer item-center gap-2">
+                <Image
+                src = {doctor.image}
+                width = {32}
+                height = {32}
+                alt = {doctor.name}
+                className = "rounded-full border border-dark-500"
+                />
+                <p>{doctor.name}</p>
+              </div>
+            </SelectItem>
+          ))}
+        </CustomFormField>
+
+        <div className="flex flex-col gap-6 xl:flex-row "></div>
 
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>

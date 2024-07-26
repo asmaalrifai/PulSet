@@ -20,6 +20,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
+import { Checkbox } from "./ui/checkbox";
 
 interface CustomProps {
   control: Control<any>;
@@ -113,15 +114,10 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
     case FormFieldType.SELECT:
       return (
         <FormControl>
-          <Select
-            onValueChange={field.onValueChange}
-            defaultValue={field.value}
-          >
-            <FormControl>
-              <SelectTrigger className="shad-select-trigger">
-                <SelectValue placeholder={placeholder} />
-              </SelectTrigger>
-            </FormControl>
+          <Select onValueChange={field.onChange} value={field.value || ""}>
+            <SelectTrigger className="shad-select-trigger">
+              <SelectValue placeholder={placeholder} />
+            </SelectTrigger>
             <SelectContent className="shad-select-content">
               {props.children}
             </SelectContent>
@@ -133,13 +129,30 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
       return (
         <FormControl>
           <Textarea
-          placeholder = {placeholder}
-          {...field}
-          className="shad-textArea"
-          disabled = {props.disabled} //to drag and make the box bigger
+            placeholder={placeholder}
+            {...field}
+            className="shad-textArea"
+            disabled={props.disabled} //to drag and make the box bigger
           />
         </FormControl>
-      )
+      );
+
+    case FormFieldType.CHECKBOX:
+      return (
+        <FormControl>
+          <div className="flex item-center gap-4">
+            <Checkbox
+              id={props.name}
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+            <label htmlFor={props.name} className="checkbox-label">
+              {props.label}
+            </label>
+          </div>
+        </FormControl>
+      );
+
     default:
       break;
   }
